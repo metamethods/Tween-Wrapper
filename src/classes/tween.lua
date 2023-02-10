@@ -14,11 +14,10 @@ function Wrapper.new(
 	inital: Edits?,
 	transition: TweenInfo?
 ): Wrapper
-	local self = setmetatable({
-		_object = object,
-		_tweens = {}
-	}, Wrapper)
+	local self = setmetatable({}, Wrapper)
 
+	self._object = object
+	self._tweens = {}
 	self:Create('Inital', inital or {}, transition):Animate('Inital')
 
 	return self

@@ -8,7 +8,6 @@ TweenGroup.__index = TweenGroup
 type Settings = {
   staggerTweens: number?,
   delayTweens: number?,
-
   transition: TweenInfo?
 }
 
