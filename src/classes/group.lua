@@ -1,5 +1,5 @@
 local Package = script.Parent.Parent
-local Tween = require(Package.classes.tween)
+local Tween = require(Package.classes.Tween)
 local Await = require(Package.util.await)
 
 local TweenGroup = {}
