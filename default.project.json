@@ -1,0 +1,14 @@
+{
+		"name": "Tween Wrapper",
+		"tree": {
+			"$className": "DataModel",
+
+			"ReplicatedStorage": {
+				"TweenWrapper": {
+					"$path": "src"
+				}
+			},
+
+			"Workspace": { }
+		}
+	}
