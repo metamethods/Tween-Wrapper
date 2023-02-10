@@ -1,4 +1,4 @@
 return {
-  tween = require(script.classes.tween),
-  group = require(script.classes.group)
+  Tween = require(script.classes.Tween),
+  Group = require(script.classes.Group)
 }
