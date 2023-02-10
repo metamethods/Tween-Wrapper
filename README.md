@@ -15,3 +15,159 @@ rojo serve
 ```
 
 For more help, check out [the Rojo documentation](https://rojo.space/docs).
+
+# Documentation
+
+How to require the module:
+
+```lua
+local TweenWrapper = require(game.ReplicatedStorage.TweenWrapper) -- Preffered to do game:GetService("ReplicatedStorage"):WaitForChild("TweenWrapper")
+
+local Tween = TweenWrapper.Tween
+local TweenGroups = TweenWrapper.Group
+```
+
+## Tween
+
+### Creating a new tween
+
+```lua
+Tween.new(
+  object: Instance,
+  initial: {
+    changes = { [string] = any },
+    properties = { [string] = any }
+  }?,
+  transition: TweenInfo?
+): Wrapper
+```
+Theres a difference with `changes` and `properties`. `changes` are properties that will be tweened on the object, while `properties` are properties that will be set on the object. Not much to explain really.
+
+Example:
+
+```lua
+local new = Tween.new(
+  workspace.Baseplate, 
+  {
+    changes = { transparency = 1 }
+  }, 
+  TweenInfo.new(1)
+)
+```
+Creates a new tween object that can create more tweens within it. The `initial` parameter is optional, and can be used to set the initial properties of the object. The `transition` parameter is also optional, and can be used to set the default transition for the tween.
+
+### Adding a tween within a tween object
+
+```lua
+Tween:Create(
+  name: string,
+  animation: {
+    changes = { [string] = any },
+    properties = { [string] = any }
+  },
+  transition: TweenInfo?
+): Wrapper
+```
+
+Example:
+
+```lua
+...
+new:Create(
+  "FadeIn",
+  {
+    changes = { transparency = 0 }
+  },
+  TweenInfo.new(1)
+)
+:Create(
+  "FadeOut",
+  {
+    changes = { transparency = 1 }
+  },
+  TweenInfo.new(1)
+)
+```
+
+Creates a new tween within the tween object with any name you pick. The `transition` parameter is optional, and can be used to set the transition for the tween.
+
+### Playing a tween
+
+```lua
+Tween:Animate(
+  name: string,
+  transition: TweenInfo?
+): Tween
+```
+
+Example:
+
+```lua
+...
+new:Animate("FadeIn").Completed:Wait()
+new:Animate("FadeOut", TweenInfo.new(10)).Completed:Wait()
+
+print("Done!")
+```
+
+Plays the tween with the name you picked. The `transition` parameter is optional, and can be used to set the transition for the tween which will be overridden by the tween that was originally set for that tween.
+
+## TweenGroups
+
+### Creating a new tween group
+
+```lua
+TweenGroups.new(
+  tweens: { Wrapper },
+  settings: { 
+    staggerTweens: number?,
+    delayTweens: number?,
+    transition: TweenInfo?
+  }
+): TweenGroup
+```
+
+Example:
+
+```lua
+local newGroup = TweenGroups.new(
+  {
+    Tween.new(workspace.Ball1):Create("FadeOut", { changes = { transparency = 1 } }),
+    Tween.new(workspace.Ball2):Create("FadeOut", { changes = { transparency = 1 } }),
+    Tween.new(workspace.Ball3):Create("FadeOut", { changes = { transparency = 1 } })
+  },
+  {
+    staggerTweens = 0.5, -- Stagger the tweens by 0.5 seconds
+    delayTweens = 1, -- Waits 1 second before starts playing the tweens
+    transition = TweenInfo.new(1) -- Sets the default transition for the tweens being played
+  }
+)
+```
+
+Creates a new tween group with the tweens you picked. The `settings` parameter is optional, and can be used to set settings for the tween group.
+
+### Playing a tween group
+
+```lua
+TweenGroup:Play(
+  name: string, 
+  transition: TweenInfo?
+): nil
+```
+
+Example:
+
+```lua
+...
+newGroup:Play("FadeOut", TweenInfo.new(10))
+```
+
+Plays the tween group with the name you picked. The `transition` parameter is optional, and can be used to set the transition for the tweens which will be overridden by the transition that was originally set for that whole tween group.
+
+### Resetting a tween group
+
+```lua
+TweenGroup:Reset(): nil
+```
+
+It just plays the tween `Initial` that was set when creating the tween object.
